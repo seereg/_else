@@ -1,2 +1,3 @@
 2016-02-11  11:38:28 - Access violation at address 004046B6 in module 'Stand.exe'. Read of address FFFFFFF9
 2016-02-11  11:42:41 - launched at 11:42 Учёт времени пользования ПК
+11
