@@ -10,7 +10,8 @@ uses
   Forms, unit_m, unit_fr_pasport, unit_m_data, zcomponent, rxnew,
 unit_types_and_const, FramePassportProperties, FramePassportObjects,
 FramePassport, unit_login, typePaspProp, typePaspObj, typePaspBranch,
-typePaspElem, FrameSettingsElements, frameCad, unitDemoFrame1;
+typePaspElem, FrameSettingsElements, frameCad, unitDemoFrame1, 
+unit_frame_set_users, unit_set_repport;
 
 {$R *.res}
 begin

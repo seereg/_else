@@ -20,7 +20,6 @@ type
     ActionList1: TActionList;
     DBSetElements: TDBGrid;
     DSSetElements: TDataSource;
-    GroupBoxSetElements: TGroupBox;
     ToolBar1: TToolBar;
     ToolButton1: TToolButton;
     ToolButton2: TToolButton;
@@ -91,6 +90,7 @@ begin
   ElementGroupID:= pElementGroupID;
   DBSetElements.Columns.Clear;
   //GroupBoxSetElements.Caption:= GroupBoxSetElements.Caption+' (ID='+IntToStr(ElementGroupID)+')';
+  hint:='Редактирование справочника элементов';
   if (ElementGroupID = -1) then
   begin
     DSSetElements.DataSet:= ZTSetElementsGroup;

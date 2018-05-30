@@ -84,7 +84,7 @@ object FrameCad: TFrameCad
   object ActionListCad: TActionList
     Images = DataM.IL_32
     left = 47
-    top = 24
+    top = 56
     object ActionClear: TAction
       Caption = 'ActionClear'
       ImageIndex = 4
@@ -98,7 +98,7 @@ object FrameCad: TFrameCad
     object ActionTest: TAction
       Caption = 'Блок тестирования'
       Hint = 'Блок тестирования'
-      ImageIndex = 5
+      ImageIndex = 6
       OnExecute = ActionTestExecute
     end
     object ActionPaint1: TAction

@@ -7,7 +7,7 @@ object FramePassport: TFramePassport
   ClientHeight = 614
   ClientWidth = 641
   TabOrder = 0
-  DesignLeft = 1263
+  DesignLeft = 1204
   DesignTop = 309
   object PageControlPassport: TPageControl
     Left = 0

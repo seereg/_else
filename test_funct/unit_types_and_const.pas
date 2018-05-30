@@ -4,7 +4,7 @@ unit unit_types_and_const;
 interface
 //типы, слассы, константы, методы общего назначения
 uses
-  Classes, SysUtils, ZDataset, ZConnection;
+  Classes, SysUtils, ZDataset, ZConnection, Forms, Controls;
 
 const
  const_pasNew = -1;
@@ -26,6 +26,7 @@ type
 
  function GetMyVersion:string;
  function GetSQL(iden:string;param1:integer;param2:integer = -1):string;
+ function ShowFrame(owner:TForm;frame:TFrame):TForm;
 
 implementation
 
@@ -49,6 +50,22 @@ begin
     end;
   s.Free;
   except; end;
+end;
+
+function ShowFrame(owner:TForm;frame:TFrame):TForm;
+var form: TForm;
+begin
+  form:=TForm.Create(owner);
+  form.Width:=frame.Width;
+  form.Height:=frame.Height;
+  frame.Parent:=TWinControl(form);
+  form.caption := frame.Hint;
+  form.BorderStyle:=bsToolWindow;
+  form.FormStyle:=fsSystemStayOnTop;
+  form.Position:=poScreenCenter;
+  form.ShowInTaskBar:=stNever;
+  form.show;
+  result:=form;
 end;
 
 function GetSQL(iden: string; param1: integer; param2: integer): string;

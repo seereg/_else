@@ -1,55 +1,55 @@
 object FormLogin: TFormLogin
   Left = 799
-  Height = 219
+  Height = 116
   Top = 300
-  Width = 296
+  Width = 329
   BorderIcons = []
   BorderStyle = bsToolWindow
   Caption = 'Авторизация'
-  ClientHeight = 219
-  ClientWidth = 296
+  ClientHeight = 116
+  ClientWidth = 329
   FormStyle = fsSystemStayOnTop
   Position = poScreenCenter
   ShowInTaskBar = stNever
   LCLVersion = '1.6.4.0'
   object Panel2: TPanel
-    Left = 264
-    Height = 219
+    Left = 320
+    Height = 116
     Top = 0
-    Width = 32
+    Width = 9
     Align = alRight
     BevelOuter = bvNone
     TabOrder = 0
   end
   object Panel3: TPanel
     Left = 0
-    Height = 219
+    Height = 116
     Top = 0
-    Width = 32
+    Width = 8
     Align = alLeft
     BevelOuter = bvNone
     TabOrder = 1
   end
   object Panel4: TPanel
-    Left = 32
-    Height = 219
+    Left = 8
+    Height = 116
     Top = 0
-    Width = 232
+    Width = 312
     Align = alClient
     BevelOuter = bvNone
-    ClientHeight = 219
-    ClientWidth = 232
+    ClientHeight = 116
+    ClientWidth = 312
     TabOrder = 2
     object Panel1: TPanel
       Left = 0
       Height = 24
-      Top = 40
-      Width = 232
+      Top = 8
+      Width = 312
       Align = alTop
       BevelOuter = bvNone
       Caption = 'Panel1'
       ClientHeight = 24
-      ClientWidth = 232
+      ClientWidth = 312
       TabOrder = 0
       object Label1: TLabel
         Left = 0
@@ -67,7 +67,7 @@ object FormLogin: TFormLogin
         Left = 64
         Height = 24
         Top = 0
-        Width = 168
+        Width = 248
         Align = alClient
         TabOrder = 0
         Text = 'Login'
@@ -75,18 +75,18 @@ object FormLogin: TFormLogin
     end
     object Panel5: TPanel
       Left = 0
-      Height = 40
+      Height = 8
       Top = 0
-      Width = 232
+      Width = 312
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 1
     end
     object Panel6: TPanel
       Left = 0
-      Height = 40
-      Top = 64
-      Width = 232
+      Height = 8
+      Top = 32
+      Width = 312
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 2
@@ -94,13 +94,13 @@ object FormLogin: TFormLogin
     object Panel7: TPanel
       Left = 0
       Height = 24
-      Top = 104
-      Width = 232
+      Top = 40
+      Width = 312
       Align = alTop
       BevelOuter = bvNone
       Caption = 'Panel7'
       ClientHeight = 24
-      ClientWidth = 232
+      ClientWidth = 312
       TabOrder = 3
       object Label2: TLabel
         Left = 0
@@ -118,17 +118,17 @@ object FormLogin: TFormLogin
         Left = 64
         Height = 24
         Top = 0
-        Width = 168
+        Width = 248
         Align = alClient
         TabOrder = 0
         Text = '*************'
       end
     end
     object BitBtn1: TBitBtn
-      Left = 157
+      Left = 216
       Height = 30
-      Top = 160
-      Width = 75
+      Top = 80
+      Width = 96
       Caption = 'Ок'
       ModalResult = 1
       OnClick = BitBtn1Click
@@ -137,8 +137,8 @@ object FormLogin: TFormLogin
     object BitBtn2: TBitBtn
       Left = 0
       Height = 30
-      Top = 160
-      Width = 75
+      Top = 80
+      Width = 88
       Caption = 'Отмена'
       ModalResult = 2
       OnClick = BitBtn2Click

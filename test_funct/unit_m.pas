@@ -9,13 +9,16 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
   ExtCtrls, Menus, ActnList, Buttons, StdCtrls, DbCtrls, ExtDlgs, attabs,
   rxdbgrid, unit_m_data, db, unit_types_and_const, FramePassport,
-  FrameSettingsElements, frameCad, ZDataset, KGrids;
+  FrameSettingsElements, unit_set_repport, unit_frame_set_users, frameCad,
+  ZDataset, KGrids;
 
 type
 
   { TFormM }
 
   TFormM = class(TForm)
+    ActionSetReports: TAction;
+    ActionSetUsers: TAction;
     ActionPasspListRefresh: TAction;
     ActionPassportMAP: TAction;
     ActionPassportCAD: TAction;
@@ -37,10 +40,10 @@ type
     EditFind: TEdit;
     EditFind1: TEdit;
     Image1: TImage;
-    Image2: TImage;
     Image3: TImage;
     MenuItem1: TMenuItem;
     MenuItem10: TMenuItem;
+    MenuItem11: TMenuItem;
     miSettingsSystemAll: TMenuItem;
     MenuItem12: TMenuItem;
     miSettingsUsers: TMenuItem;
@@ -84,6 +87,8 @@ type
     procedure ActionPassportEditExecute(Sender: TObject);
     procedure ActionPassportNewExecute(Sender: TObject);
     procedure ActionPassportOpenExecute(Sender: TObject);
+    procedure ActionSetReportsExecute(Sender: TObject);
+    procedure ActionSetUsersExecute(Sender: TObject);
     procedure CheckFilterClick(Sender: TObject; Index: integer);
     procedure DBLookupFilterTypeChange(Sender: TObject);
     procedure EditFindChange(Sender: TObject);
@@ -130,7 +135,7 @@ var
 
   FPassport:TFramePassport;
   PassportsArr:array of TFramePassport;
-  SettingsFrame:TFrameSettingsElements;
+  SettingsForm:TForm;
   FrameCad:TFrameCad;
 
 implementation
@@ -179,6 +184,7 @@ begin
 
  SetLength(PassportsArr,0);
  if FormLogin.ShowModal<>mrOK then Close;
+ WindowState:=wsFullScreen;
 end;
 
 procedure TFormM.PopupMenuSettingsPopup(Sender: TObject);
@@ -244,7 +250,7 @@ procedure TFormM.TabChangeQueryEvent(Sender: TObject; ANewTabIndex: Integer;
 var
   i:integer;
 begin
- if SettingsFrame<>nil then FreeAndNil(SettingsFrame);
+ if SettingsForm<>nil then FreeAndNil(SettingsForm);
  for i:=0 to High(PassportsArr) do
     if PassportsArr[i]<>nil then begin
      if ANewTabIndex=PassportsArr[i].TabIndex
@@ -338,6 +344,18 @@ begin
  PassportOpen(ActivPaspID);
 end;
 
+procedure TFormM.ActionSetReportsExecute(Sender: TObject);
+begin
+  if (SettingsForm<>nil) then FreeAndNil(SettingsForm);
+ SettingsForm:=ShowFrame(self,TFrame(TFrameSetReport.Create(nil)));
+end;
+
+procedure TFormM.ActionSetUsersExecute(Sender: TObject);
+begin
+  if (SettingsForm<>nil) then FreeAndNil(SettingsForm);
+ SettingsForm:=ShowFrame(self,TFrame(TFrameSetUsers.Create(nil)));
+end;
+
 procedure TFormM.CheckFilterClick(Sender: TObject; Index: integer);
 var filt:string;
 begin
@@ -371,7 +389,7 @@ end;
 
 procedure TFormM.FormCreate(Sender: TObject);
 begin
- SettingsFrame:= nil;
+ SettingsForm:= nil;
  FrameCad:= nil;
 end;
 
@@ -392,10 +410,11 @@ begin
  if (sender is TMenuItem)
   then ElementGroupID:= TMenuItem(Sender).Tag
   else ElementGroupID:= PopupMenuSettings.PopupComponent.Tag;
- if (SettingsFrame<>nil) then FreeAndNil(SettingsFrame);
- SettingsFrame:= TFrameSettingsElements.Create(PanelPassport,ElementGroupID);
- SettingsFrame.Align:= alClient;
- SettingsFrame.Parent:= PanelPassport;
+ if (SettingsForm<>nil) then FreeAndNil(SettingsForm);
+ SettingsForm:=ShowFrame(self,TFrame(TFrameSettingsElements.Create(nil,ElementGroupID)));
+ //SettingsFrame:= TFrameSettingsElements.Create(PanelPassport,ElementGroupID);
+ //SettingsFrame.Align:= alClient;
+ //SettingsFrame.Parent:= PanelPassport;
 end;
 
 procedure TFormM.PassportOpen(Pas_ID: integer);
