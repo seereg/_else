@@ -63,7 +63,7 @@ object FormLogin: TFormLogin
         Layout = tlCenter
         ParentColor = False
       end
-      object Edit1: TEdit
+      object EdLogin: TEdit
         Left = 64
         Height = 24
         Top = 0
@@ -114,7 +114,7 @@ object FormLogin: TFormLogin
         Layout = tlCenter
         ParentColor = False
       end
-      object Edit2: TEdit
+      object EdPas: TEdit
         Left = 64
         Height = 24
         Top = 0

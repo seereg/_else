@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  ExtCtrls, Buttons, unit_m;
+  ExtCtrls, Buttons, unit_m, unit_types_and_const;
 
 type
 
@@ -15,8 +15,8 @@ type
   TFormLogin = class(TForm)
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
-    Edit1: TEdit;
-    Edit2: TEdit;
+    EdLogin: TEdit;
+    EdPas: TEdit;
     Label1: TLabel;
     Label2: TLabel;
     Panel1: TPanel;
@@ -44,7 +44,15 @@ implementation
 { TFormLogin }
 
 procedure TFormLogin.BitBtn1Click(Sender: TObject);
+var CheckLicRes:string;
 begin
+  CheckLicRes:=CheckLic(EdLogin.text,GetHash(EdPas.text));
+  if CheckLicRes<>'' then
+  begin
+   ModalResult:=mrNone;
+   Caption:=CheckLicRes;
+   exit;
+  end;
   FormM.ActionReconnectExecute(nil);
 end;
 

@@ -5,9 +5,9 @@ unit FramePassport;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, ComCtrls, ActnList, attabs,
-  FramePassportObjects, FramePassportProperties, unit_types_and_const,
-  unit_m_data, unitDemoFrame1, typePaspProp, KGrids;
+  Classes, SysUtils, typinfo, FileUtil, Forms, Controls, ComCtrls, ActnList,
+  StdCtrls, attabs, FramePassportObjects, FramePassportProperties,
+  unit_types_and_const, unit_m_data, unitDemoFrame1, typePaspProp, KGrids;
 
 type
 
@@ -28,12 +28,14 @@ type
     procedure Action2Execute(Sender: TObject);
   private
     { private declarations }
+    propEdit:Boolean;
+    procedure setEdit(AValue: Boolean);
   public
     { public declarations }
     TabIndex:integer;
     PasspID:integer;
     UserID :integer;
-  public
+    property Edit    :Boolean read propEdit  write setEdit; 
     constructor Create(TheOwner: TComponent;TabOwner:TATTabs;pPasspID,pUserID:integer); //override;
   end;
 
@@ -55,6 +57,25 @@ begin
   Caption:=Caption;
 end;
 
+procedure TFramePassport.setEdit(AValue: Boolean);
+var i:integer;
+    p: PPropInfo;
+begin
+  if propEdit=AValue then Exit;
+  propEdit:=AValue;
+  log('test');
+                  //ljkl
+  for i := 0 to ComponentCount-1 do
+  begin
+    //p := GetPropInfo(Components[i].ClassType, 'ReadOnly');
+    //if Assigned(p) then
+    //
+    //TCustomEdit(Components[i]).reaColor := clRed;
+    if (Components[i] is TEdit) then
+    (Components[i] as TEdit).ReadOnly := propEdit;
+  end;
+end;
+
 constructor TFramePassport.Create(TheOwner: TComponent; TabOwner: TATTabs;
   pPasspID,pUserID: integer);
 var
@@ -70,7 +91,13 @@ begin
   self.Name:='FramePassportID'+inttostr(pPasspID);
   self.PasspID:=pPasspID;
   self.UserID :=pUserID;
-  TabOwner.AddTab(-1,'Тип-'+pass.pass_type+': '+pass.pass_name+' (ред.)');
+  { TODO : Заглушка - переделать тиб из БД }
+  //TabOwner.AddTab(-1,'Тип-'+pass.pass_type+': '+pass.pass_name+' (ред.)');
+  case StrToInt(pass.pass_type) of
+  1:TabOwner.AddTab(-1,'Участок '+': '+pass.pass_name+' (ред.)');   
+  2:TabOwner.AddTab(-1,'Узел '+': '+pass.pass_name+' (ред.)');   
+  3:TabOwner.AddTab(-1,'Эпюр '+': '+pass.pass_name+' (ред.)');   
+  end;
   TabOwner.TabIndex:=TabOwner.TabCount-1;
   freeandnil(pass); //  pass.Destroy;
    for i:=(PageControlPassport.PageCount-1) downto 0

@@ -4,7 +4,7 @@ unit unit_types_and_const;
 interface
 //типы, слассы, константы, методы общего назначения
 uses
-  Classes, SysUtils, ZDataset, ZConnection, Forms, Controls;
+  Classes, SysUtils, md5, ZDataset, ZConnection, Forms, Controls;
 
 const
  const_pasNew = -1;
@@ -24,9 +24,28 @@ type
     angle:double;
   end;
 
+type
+  TLicRec = record
+    CanEdit:Boolean;
+    Demo:Boolean;
+    LicCount:Integer;
+    LicName:String;
+    UserID:Integer;
+    competency1:Boolean;
+    competency2:Boolean;
+    competency3:Boolean;
+    competency4:Boolean;
+  end;
+
  function GetMyVersion:string;
  function GetSQL(iden:string;param1:integer;param2:integer = -1):string;
  function ShowFrame(owner:TForm;frame:TFrame):TForm;
+ function CheckLic(Login,PasHash:string):String;
+ function GetHash(Pas:string):string;
+ procedure log(massage:string);
+ Procedure MyExcept(Sender : TObject; E : Exception);
+ var
+   authorization :TLicRec;
 
 implementation
 
@@ -66,6 +85,52 @@ begin
   form.ShowInTaskBar:=stNever;
   form.show;
   result:=form;
+end;
+
+function CheckLic(Login, PasHash: string): String;
+begin
+  result:='';
+  //result:='Лицензия не прошла проверку';
+  //result:=checkUser(authorization.UserID);
+  authorization.Demo:=True;
+  authorization.LicCount:=15;
+  authorization.LicName:='Kit-tech';
+  authorization.UserID:=0;
+  //checkCompetency(authorization.UserID)
+  authorization.CanEdit:=False;
+  authorization.competency1:=True;
+  authorization.competency2:=True;
+  authorization.competency3:=True;
+  authorization.competency4:=True;
+end;
+
+function GetHash(Pas: string): string;
+begin
+  result:= MD5Print(MD5String('RealRoad%'+Pas))
+end;
+
+procedure log(massage: string);
+var  E:Exception;
+begin
+ E:= Exception.Create(massage);
+ MyExcept(nil,E);
+ E.Free;
+end;
+
+procedure MyExcept(Sender: TObject; E: Exception);
+var
+  filelog:string;
+  myFile:TextFile;
+  st:string;
+begin
+ filelog :=ExtractFileDir(ParamStr(0))+ '\log.txt';
+ AssignFile(myFile, filelog);
+ if FileExists(filelog)
+  then  Append(myFile)
+  else ReWrite(myFile);
+ DateTimeToString(st,'YYYY-MM-DD  hh:mm:ss',now);
+ WriteLn(myFile, st+' - '+E.Message);
+ CloseFile(myFile);
 end;
 
 function GetSQL(iden: string; param1: integer; param2: integer): string;

@@ -159,6 +159,7 @@ object FrameSetUsers: TFrameSetUsers
       Caption = 'Panel3'
       ClientHeight = 41
       ClientWidth = 628
+      Enabled = False
       TabOrder = 0
       object CheckBox2: TCheckBox
         Left = 1
@@ -213,7 +214,7 @@ object FrameSetUsers: TFrameSetUsers
         Width = 468
         Align = alClient
         Lines.Strings = (
-          ' - может создавать изменённые паспорта и черновики'
+          ' - может создавать, изменять паспорта и черновики'
           ''
         )
         ParentColor = True

@@ -26,7 +26,6 @@ type
     EdYearBuilt: TEdit;
     EdWay: TEdit;
     GroupBox1: TGroupBox;
-    KGrid1: TKGrid;
     Lab10: TLabel;
     LbLastEdit: TLabel;
     LbUserEdit: TLabel;
@@ -43,13 +42,13 @@ type
     MemoComment: TMemo;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
+    Panel1: TPanel;
     PanelL: TPanel;
     PanelV: TPanel;
     PanelVL0: TPanel;
-    PanelVL: TPanel;
     PPMGridBranches: TPopupMenu;
     Splitter1: TSplitter;
-    SplitterVL: TSplitter;
+    Splitter2: TSplitter;
     StringGrid1: TStringGrid;
     ZQProp: TZQuery;
     ZTBranches: TZTable;

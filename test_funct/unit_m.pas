@@ -17,6 +17,7 @@ type
   { TFormM }
 
   TFormM = class(TForm)
+    ActionShowEdit: TAction;
     ActionSetReports: TAction;
     ActionSetUsers: TAction;
     ActionPasspListRefresh: TAction;
@@ -41,19 +42,19 @@ type
     EditFind1: TEdit;
     Image1: TImage;
     Image3: TImage;
-    MenuItem1: TMenuItem;
+    MenuItemAddPas: TMenuItem;
     MenuItem10: TMenuItem;
-    MenuItem11: TMenuItem;
+    MenuItemSetReports: TMenuItem;
     miSettingsSystemAll: TMenuItem;
-    MenuItem12: TMenuItem;
+    MenuItemDecor: TMenuItem;
     miSettingsUsers: TMenuItem;
     miSettingsConnect: TMenuItem;
-    MenuItem2: TMenuItem;
-    MenuItem3: TMenuItem;
-    MenuItem4: TMenuItem;
-    MenuItem5: TMenuItem;
-    MenuItem6: TMenuItem;
-    MenuItem7: TMenuItem;
+    MenuItemEdPas: TMenuItem;
+    MenuItemDelPas: TMenuItem;
+    MenuItemApprovPas: TMenuItem;
+    MenuItemGetCad: TMenuItem;
+    MenuItemGetMap: TMenuItem;
+    MenuItemOpenPas: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
     miSettingsElements: TMenuItem;
@@ -81,6 +82,7 @@ type
     ToolButton2: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
+    ToolButton5: TToolButton;
     procedure ActionPasspListRefreshExecute(Sender: TObject);
     procedure ActionPassportCADExecute(Sender: TObject);
     procedure ActionPassportDelExecute(Sender: TObject);
@@ -89,6 +91,7 @@ type
     procedure ActionPassportOpenExecute(Sender: TObject);
     procedure ActionSetReportsExecute(Sender: TObject);
     procedure ActionSetUsersExecute(Sender: TObject);
+    procedure ActionShowEditExecute(Sender: TObject);
     procedure CheckFilterClick(Sender: TObject; Index: integer);
     procedure DBLookupFilterTypeChange(Sender: TObject);
     procedure EditFindChange(Sender: TObject);
@@ -96,7 +99,7 @@ type
     procedure Image1DblClick(Sender: TObject);
     procedure Image3DblClick(Sender: TObject);
     procedure MenuItemSetEditElemClick(Sender: TObject);
-    procedure PassportOpen(Pas_ID:integer);
+    procedure PassportOpen(Pas_ID:integer;Edit:Boolean= false);
     procedure PassportOpenCad(Pas_ID:integer);
     procedure ActionReconnectExecute(Sender: TObject);
     procedure ActionShowCadExecute(Sender: TObject);
@@ -120,6 +123,7 @@ type
   public
     PasTabs: TATTabs;
     { public declarations }
+    AppIsInit:boolean;
     procedure PasspTypeListAfterUpdate();
   end;
 
@@ -184,7 +188,10 @@ begin
 
  SetLength(PassportsArr,0);
  if FormLogin.ShowModal<>mrOK then Close;
+ //ActionShowEdit.Checked := authorization.CanEdit;
+ ActionShowEdit.Execute;
  WindowState:=wsFullScreen;
+ AppIsInit:=True;//конец инициализации приложения
 end;
 
 procedure TFormM.PopupMenuSettingsPopup(Sender: TObject);
@@ -356,6 +363,18 @@ begin
  SettingsForm:=ShowFrame(self,TFrame(TFrameSetUsers.Create(nil)));
 end;
 
+procedure TFormM.ActionShowEditExecute(Sender: TObject);
+begin
+ if (AppIsInit) and authorization.competency2 then authorization.CanEdit:=not(ActionShowEdit.Checked);
+ ActionShowEdit.Checked     :=authorization.CanEdit;
+ MenuItemAddPas.Enabled     :=authorization.CanEdit;
+ MenuItemApprovPas.Enabled  :=authorization.CanEdit;
+ MenuItemDelPas.Enabled     :=authorization.CanEdit;
+ MenuItemEdPas.Enabled      :=authorization.CanEdit;
+ miSettingsElements.Enabled :=authorization.CanEdit;
+ MenuItemSetReports.Enabled :=authorization.CanEdit;
+end;
+
 procedure TFormM.CheckFilterClick(Sender: TObject; Index: integer);
 var filt:string;
 begin
@@ -391,7 +410,9 @@ procedure TFormM.FormCreate(Sender: TObject);
 begin
  SettingsForm:= nil;
  FrameCad:= nil;
-end;
+ 
+ //Application.OnException := MyExcept; //{$mode objfpc}  
+ end;
 
 procedure TFormM.Image1DblClick(Sender: TObject);
 begin
@@ -417,7 +438,7 @@ begin
  //SettingsFrame.Parent:= PanelPassport;
 end;
 
-procedure TFormM.PassportOpen(Pas_ID: integer);
+procedure TFormM.PassportOpen(Pas_ID:Integer;Edit:Boolean = False);
   var
     i:integer;
     passpAlreadyExist:boolean=false;
@@ -428,6 +449,7 @@ begin
     then
     begin
      PassportsArr[i].Show;
+     PassportsArr[i].Edit:=Edit;
      PasTabs.TabIndex:=PassportsArr[i].TabIndex;
      passpAlreadyExist:=true;
     end
@@ -451,7 +473,7 @@ end;
 procedure TFormM.ActionPassportNewExecute(Sender: TObject);
 begin
 //  ActivPaspID:=const_pasNew;
-  PassportOpen(const_pasNew);
+  PassportOpen(const_pasNew,True);
   ActionPasspListRefresh.Execute;
 end;
 
@@ -505,7 +527,8 @@ end;
 
 procedure TFormM.ActionPassportEditExecute(Sender: TObject);
 begin
-  ActionPassportOpenExecute(Sender);
+ ActivPaspID:=DataM.ZQPasspList.FieldByName('id').AsInteger;
+ PassportOpen(ActivPaspID,True);
 end;
 
 procedure TFormM.ActionShowPaspExecute(Sender: TObject);

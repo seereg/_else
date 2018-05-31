@@ -14099,27 +14099,33 @@ object FormM: TFormM
         Caption = 'Карта'
       end
       object ToolBar2: TToolBar
-        Left = 1146
+        Left = 1072
         Height = 88
         Top = 2
-        Width = 151
+        Width = 225
         Align = alRight
-        AutoSize = True
         ButtonHeight = 88
-        ButtonWidth = 150
+        ButtonWidth = 110
         Caption = 'ToolBar2'
         EdgeBorders = []
         Images = DataM.IL_64
         ShowCaptions = True
         TabOrder = 0
         object ToolButton10: TToolButton
-          Left = 1
+          Left = 111
           Top = 0
           AutoSize = True
           Caption = 'Настройка'
           DropdownMenu = PopupMenuSettings
           ImageIndex = 4
           OnClick = ToolButton10Click
+        end
+        object ToolButton5: TToolButton
+          Left = 1
+          Top = 0
+          Action = ActionShowEdit
+          AutoSize = True
+          Style = tbsCheck
         end
       end
     end
@@ -20386,29 +20392,34 @@ object FormM: TFormM
       Caption = 'Настройка отчётных форм'
       OnExecute = ActionSetReportsExecute
     end
+    object ActionShowEdit: TAction
+      Caption = 'Редактирование'
+      ImageIndex = 8
+      OnExecute = ActionShowEditExecute
+    end
   end
   object PopupMenuList: TPopupMenu
-    left = 24
-    top = 344
-    object MenuItem1: TMenuItem
+    left = 48
+    top = 352
+    object MenuItemAddPas: TMenuItem
       Action = ActionPassportNew
     end
-    object MenuItem7: TMenuItem
+    object MenuItemOpenPas: TMenuItem
       Action = ActionPassportOpen
     end
-    object MenuItem2: TMenuItem
+    object MenuItemEdPas: TMenuItem
       Action = ActionPassportEdit
     end
-    object MenuItem4: TMenuItem
+    object MenuItemApprovPas: TMenuItem
       Action = ActionPassportPost
     end
-    object MenuItem3: TMenuItem
+    object MenuItemDelPas: TMenuItem
       Action = ActionPassportDel
     end
-    object MenuItem5: TMenuItem
+    object MenuItemGetCad: TMenuItem
       Action = ActionPassportCAD
     end
-    object MenuItem6: TMenuItem
+    object MenuItemGetMap: TMenuItem
       Action = ActionPassportMAP
     end
     object MenuItem8: TMenuItem
@@ -20435,14 +20446,16 @@ object FormM: TFormM
       Caption = 'Настройки системы'
       object miSettingsConnect: TMenuItem
         Caption = 'Настройка соединений'
+        Enabled = False
       end
       object miSettingsUsers: TMenuItem
         Action = ActionSetUsers
       end
-      object MenuItem12: TMenuItem
+      object MenuItemDecor: TMenuItem
         Caption = 'Настройка правил оформления'
+        Enabled = False
       end
-      object MenuItem11: TMenuItem
+      object MenuItemSetReports: TMenuItem
         Action = ActionSetReports
       end
     end

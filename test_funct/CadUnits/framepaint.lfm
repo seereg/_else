@@ -780,6 +780,7 @@ object FrameCadPaint: TFrameCadPaint
     ClientHeight = 601
     ClientWidth = 112
     TabOrder = 1
+    Visible = False
     object btnCopy: TBitBtn
       Left = 0
       Height = 32
