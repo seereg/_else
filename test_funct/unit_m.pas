@@ -6,17 +6,18 @@ unit unit_m;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ComCtrls,
-  ExtCtrls, Menus, ActnList, Buttons, StdCtrls, DbCtrls, ExtDlgs, attabs,
-  rxdbgrid, unit_m_data, db, unit_types_and_const, FramePassport,
-  FrameSettingsElements, unit_set_repport, unit_frame_set_users, frameCad,
-  ZDataset, KGrids;
+  Classes, SysUtils, FileUtil, LazHelpCHM, Forms, Controls, Graphics, Dialogs,
+  ComCtrls, ExtCtrls, Menus, ActnList, Buttons, StdCtrls, DbCtrls, ExtDlgs,
+  EditBtn, attabs, rxdbgrid, unit_m_data, db, unit_types_and_const,
+  FramePassport, FrameSettingsElements, unit_set_repport, unit_frame_set_users,
+  frameCad, ZDataset, KGrids;
 
 type
 
   { TFormM }
 
   TFormM = class(TForm)
+    ActionFindType: TAction;
     ActionShowEditDemo: TAction;
     ActionSetReports: TAction;
     ActionSetUsers: TAction;
@@ -78,11 +79,11 @@ type
     ToolBar1: TToolBar;
     ToolBar2: TToolBar;
     ToolButton1: TToolButton;
-    ToolButton10: TToolButton;
     ToolButton2: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
+    ToolButton6: TToolButton;
     procedure ActionPasspListRefreshExecute(Sender: TObject);
     procedure ActionPassportCADExecute(Sender: TObject);
     procedure ActionPassportDelExecute(Sender: TObject);
@@ -365,8 +366,9 @@ end;
 
 procedure TFormM.ActionShowEditDemoExecute(Sender: TObject);
 begin
- if (AppIsInit) and authorization.competency2 then authorization.CanEdit:=not(ActionShowEditDemo.Checked);
+ if (AppIsInit) and authorization.Demo then authorization.CanEdit:=not(ActionShowEditDemo.Checked);
  ActionShowEditDemo.Visible :=authorization.Demo;
+ ToolBar2.AutoSize :=not authorization.Demo;
  ActionShowEditDemo.Checked :=authorization.CanEdit;
  MenuItemAddPas.Enabled     :=authorization.CanEdit;
  MenuItemApprovPas.Enabled  :=authorization.CanEdit;

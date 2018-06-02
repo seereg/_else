@@ -14,12 +14,14 @@ type
   { TFramePassport }
 
   TFramePassport = class(TFrame)
-    ActionPaint: TAction;
+    ActionPassExport: TAction;
+    ActionPassPaint: TAction;
     ActionPassEdit: TAction;
     ActionList1: TActionList;
     PageControlPassport: TPageControl;
     TabSheet2: TTabSheet;
     ToolBar2: TToolBar;
+    ToolButton1: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
     procedure ActionPassEditExecute(Sender: TObject);
@@ -76,6 +78,7 @@ begin
   self.PasspID:=pPasspID;
   self.UserID :=pUserID;
   self.propEdit:= True;
+  self.ActionPassEdit.Enabled := (authorization.CanEdit);
   { TODO : Заглушка - переделать тиб из БД }
   //TabOwner.AddTab(-1,'Тип-'+pass.pass_type+': '+pass.pass_name+' (ред.)');
   case StrToInt(pass.pass_type) of

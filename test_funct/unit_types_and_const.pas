@@ -95,16 +95,16 @@ begin
   //result:='Лицензия не прошла проверку';
   //result:=checkUser(authorization.UserID);
   authorization.Demo:=True;
-  authorization.Demo:=False;
+  //authorization.Demo:=False;
   authorization.LicCount:=15;
   authorization.LicName:='Kit-tech';
   authorization.UserID:=0;
   //checkCompetency(authorization.UserID)
   authorization.CanEdit:=False;
-  authorization.competency1:=True;
-  authorization.competency2:=True;
-  authorization.competency3:=True;
-  authorization.competency4:=True;
+  authorization.competency1:=False;
+  authorization.competency2:=False;
+  authorization.competency3:=False;
+  authorization.competency4:=False;
 end;
 
 function GetHash(Pas: string): string;

@@ -484,6 +484,7 @@ object FramePassportProperties: TFramePassportProperties
   object ZTBranches: TZTable
     Connection = DataM.ZConnection1
     SortedFields = 'pos,id'
+    AutoCalcFields = False
     AfterRefresh = ZTBranchesAfterRefresh
     Filtered = True
     BeforePost = ZTBranchesBeforePost

@@ -43,7 +43,12 @@ object FramePassport: TFramePassport
     object ToolButton5: TToolButton
       Left = 37
       Top = 2
-      Action = ActionPaint
+      Action = ActionPassPaint
+    end
+    object ToolButton1: TToolButton
+      Left = 73
+      Top = 2
+      Action = ActionPassExport
     end
   end
   object ActionList1: TActionList
@@ -53,13 +58,20 @@ object FramePassport: TFramePassport
     object ActionPassEdit: TAction
       Tag = 1
       Caption = 'Редактировать'
+      Hint = 'Редактировать'
       ImageIndex = 7
       OnExecute = ActionPassEditExecute
     end
-    object ActionPaint: TAction
+    object ActionPassPaint: TAction
       Tag = 1
       Caption = 'Построение'
+      Hint = 'Построение'
       ImageIndex = 5
+    end
+    object ActionPassExport: TAction
+      Caption = 'Экспорт печатной формы'
+      Hint = 'Экспорт печатной формы'
+      ImageIndex = 8
     end
   end
 end
