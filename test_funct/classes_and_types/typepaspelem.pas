@@ -24,8 +24,10 @@ type
     f_pas_id     :TMyField;
     f_elem_group_id :TMyField;
     f_conn       :TZConnection;
+    //propEdit: Boolean;
     ZQProp: TZQuery;
     function  getValue(Index:Integer):string;
+    //procedure setEdit(AValue: Boolean);
     procedure setValue(Index:Integer; Value:string);
     function  getNewID:integer;
   public
@@ -40,6 +42,7 @@ type
     property elem_year   :string  Index 5 read getValue  write setValue;
     property pas_id      :string  Index 6 read getValue  write setValue;
     property elem_group_id :string  Index 7 read getValue  write setValue;
+    //property Edit    :Boolean read propEdit  write setEdit; 
 
     constructor Create(TheOwner: TComponent;p_elem_id:integer;p_conn:TZConnection);
     //function getPasElem():boolean;
@@ -103,7 +106,7 @@ begin
         f_elem_year.Value:='';
         elem_year:=st;//переписать по id
       end;
-    if (connecting) and (fld^.table = f_elem_pos.table) then
+    if connecting and (fld^.table = f_elem_pos.table) then
       begin
         st:='INSERT OR IGNORE INTO '+ fld^.table+' (id) VALUES ('+f_elem_id.Value+')';
         ZQProp.SQL.text:=(st);

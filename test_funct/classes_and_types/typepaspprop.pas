@@ -25,6 +25,7 @@ type
     f_reconst    :TMyField;
     f_last_edit  :TMyField;
     f_user_edit  :TMyField;
+    //propEdit: Boolean;
     ZQProp       : TZQuery;
     LongitudinalProfile: TZQuery;
     f_user_id    : string;
@@ -32,6 +33,7 @@ type
     elementGroupsList : array of integer;
     elementGroupsCount : Integer;
     function  getValue(Index:Integer):string;
+    //procedure setEdit(AValue: Boolean);
     procedure setValue(Index:Integer; Value:string);
     function  getNewID:integer;
     procedure rewValue(Index:Integer);
@@ -49,6 +51,7 @@ type
     property reconst     :string  Index 6 read getValue  write setValue;
     property last_edit   :string  Index 7 read getValue  write setValue;
     property user_edit   :string  Index 8 read getValue  write setValue;
+    //property Edit    :Boolean read propEdit  write setEdit; 
     constructor Create(p_pass_id,p_user_id:integer;p_conn:TZConnection; createOllBranches:Boolean = false);
     function getData():boolean;
     function getElementGroupsCount: Integer;
@@ -87,6 +90,7 @@ var
   fld:^TMyField;
   st:string;
 begin
+  //if not(Edit) then exit;
   try
     ZQProp.SQL.Clear;
     case index of

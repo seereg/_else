@@ -1,7 +1,7 @@
 object FormM: TFormM
-  Left = 471
+  Left = 447
   Height = 675
-  Top = 228
+  Top = 222
   Width = 1299
   Caption = 'Служба пути'
   ClientHeight = 675
@@ -11580,14 +11580,16 @@ object FormM: TFormM
     FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
   }
   OnCreate = FormCreate
+  OnResize = FormResize
   OnShow = FormShow
   LCLVersion = '1.6.4.0'
-  WindowState = wsMaximized
   object Splitter1: TSplitter
-    Left = 980
+    Left = 799
     Height = 581
     Top = 94
     Width = 5
+    Align = alRight
+    ResizeAnchor = akRight
     ResizeStyle = rsLine
   end
   object Splitter2: TSplitter
@@ -11651,6 +11653,7 @@ object FormM: TFormM
           Top = 6
           Width = 441
           Align = alRight
+          Anchors = [akTop, akLeft, akRight, akBottom]
           AutoSize = False
           DataField = 'id'
           DataSource = DataM.DSPasspTypeList
@@ -11695,6 +11698,7 @@ object FormM: TFormM
           Top = 6
           Width = 441
           Align = alRight
+          Anchors = [akTop, akLeft, akRight, akBottom]
           AutoSize = False
           OnChange = EditFindChange
           TabOrder = 0
@@ -11732,6 +11736,7 @@ object FormM: TFormM
           Top = 6
           Width = 441
           Align = alRight
+          Anchors = [akTop, akLeft, akRight, akBottom]
           AutoSize = False
           OnChange = EditFindChange
           TabOrder = 0
@@ -11947,8 +11952,9 @@ object FormM: TFormM
     Left = 496
     Height = 581
     Top = 94
-    Width = 484
-    Align = alLeft
+    Width = 303
+    Align = alClient
+    Anchors = [akTop, akBottom]
     BevelOuter = bvNone
     BorderStyle = bsSingle
     Caption = 'Область паспартов'
@@ -14123,7 +14129,7 @@ object FormM: TFormM
         object ToolButton5: TToolButton
           Left = 1
           Top = 0
-          Action = ActionShowEdit
+          Action = ActionShowEditDemo
           AutoSize = True
           Style = tbsCheck
         end
@@ -20392,10 +20398,10 @@ object FormM: TFormM
       Caption = 'Настройка отчётных форм'
       OnExecute = ActionSetReportsExecute
     end
-    object ActionShowEdit: TAction
-      Caption = 'Редактирование'
+    object ActionShowEditDemo: TAction
+      Caption = 'Demo Edit'
       ImageIndex = 8
-      OnExecute = ActionShowEditExecute
+      OnExecute = ActionShowEditDemoExecute
     end
   end
   object PopupMenuList: TPopupMenu

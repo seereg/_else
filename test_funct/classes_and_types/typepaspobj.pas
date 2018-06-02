@@ -25,9 +25,11 @@ type
     f_point_1    :TMyField;
     f_point_2    :TMyField;
     f_conn       :TZConnection;
+    //propEdit: Boolean;
     ZQProp       : TZQuery;
     passElem     : TPassElem;
     function  getValue(Index:Integer):string;
+    //procedure setEdit(AValue: Boolean);
     procedure setValue(Index:Integer; Value:string);
     function  getNewID:integer;
     function  loadOllElements() :integer;
@@ -44,6 +46,7 @@ type
     property pas_id     :string  Index 6 read getValue  write setValue;
     property point_1    :string  Index 7 read getValue  write setValue;
     property point_2    :string  Index 8 read getValue  write setValue;
+    //property Edit    :Boolean read propEdit  write setEdit; 
 
     constructor Create(TheOwner: TComponent;p_obj_id:integer;p_conn:TZConnection);
     function getPasObj():boolean;

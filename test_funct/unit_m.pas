@@ -17,7 +17,7 @@ type
   { TFormM }
 
   TFormM = class(TForm)
-    ActionShowEdit: TAction;
+    ActionShowEditDemo: TAction;
     ActionSetReports: TAction;
     ActionSetUsers: TAction;
     ActionPasspListRefresh: TAction;
@@ -91,11 +91,12 @@ type
     procedure ActionPassportOpenExecute(Sender: TObject);
     procedure ActionSetReportsExecute(Sender: TObject);
     procedure ActionSetUsersExecute(Sender: TObject);
-    procedure ActionShowEditExecute(Sender: TObject);
+    procedure ActionShowEditDemoExecute(Sender: TObject);
     procedure CheckFilterClick(Sender: TObject; Index: integer);
     procedure DBLookupFilterTypeChange(Sender: TObject);
     procedure EditFindChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure FormResize(Sender: TObject);
     procedure Image1DblClick(Sender: TObject);
     procedure Image3DblClick(Sender: TObject);
     procedure MenuItemSetEditElemClick(Sender: TObject);
@@ -188,8 +189,7 @@ begin
 
  SetLength(PassportsArr,0);
  if FormLogin.ShowModal<>mrOK then Close;
- //ActionShowEdit.Checked := authorization.CanEdit;
- ActionShowEdit.Execute;
+ ActionShowEditDemo.Execute;
  WindowState:=wsFullScreen;
  AppIsInit:=True;//конец инициализации приложения
 end;
@@ -285,8 +285,8 @@ end;
 
 procedure TFormM.ActionShowMapExecute(Sender: TObject);
 begin
-  PanelCAD.Align:=alRight;
-  PanelMap.Align:=alRight;
+  //PanelCAD.Align:=alRight;
+  //PanelMap.Align:=alRight;
  if (ActionShowCad.Checked)then
   begin
    if  FrameCad=nil then
@@ -301,14 +301,14 @@ begin
   end;
   PanelCAD.Visible:=ActionShowCad.Checked;
   PanelMap.Visible:=ActionShowMap.Checked;
-  PanelCAD.Align:=alClient;
-  PanelMap.Align:=alClient;
+  //PanelCAD.Align:=alClient;
+  //PanelMap.Align:=alClient;
 end;
 
 procedure TFormM.ActionShowCadExecute(Sender: TObject);
 begin
-  PanelCAD.Align:=alRight;
-  PanelMap.Align:=alRight;
+  //PanelCAD.Align:=alRight;
+  //PanelMap.Align:=alRight;
  if (ActionShowCad.Checked)then
   begin
    if  FrameCad=nil then
@@ -323,8 +323,8 @@ begin
   end;
   PanelCAD.Visible:=ActionShowCad.Checked;
   PanelMap.Visible:=ActionShowMap.Checked;
-  PanelCAD.Align:=alClient;
-  PanelMap.Align:=alClient;
+  //PanelCAD.Align:=alClient;
+  //PanelMap.Align:=alClient;
 end;
 
 procedure TFormM.ActionReconnectExecute(Sender: TObject);
@@ -363,10 +363,11 @@ begin
  SettingsForm:=ShowFrame(self,TFrame(TFrameSetUsers.Create(nil)));
 end;
 
-procedure TFormM.ActionShowEditExecute(Sender: TObject);
+procedure TFormM.ActionShowEditDemoExecute(Sender: TObject);
 begin
- if (AppIsInit) and authorization.competency2 then authorization.CanEdit:=not(ActionShowEdit.Checked);
- ActionShowEdit.Checked     :=authorization.CanEdit;
+ if (AppIsInit) and authorization.competency2 then authorization.CanEdit:=not(ActionShowEditDemo.Checked);
+ ActionShowEditDemo.Visible :=authorization.Demo;
+ ActionShowEditDemo.Checked :=authorization.CanEdit;
  MenuItemAddPas.Enabled     :=authorization.CanEdit;
  MenuItemApprovPas.Enabled  :=authorization.CanEdit;
  MenuItemDelPas.Enabled     :=authorization.CanEdit;
@@ -414,6 +415,13 @@ begin
  //Application.OnException := MyExcept; //{$mode objfpc}  
  end;
 
+procedure TFormM.FormResize(Sender: TObject);
+begin
+ PanelList.Width:=round(FormM.Width*0.25);
+ PanelCAD.Width:=round(FormM.Width*0.5);
+ PanelMap.Width:=round(FormM.Width*0.5);
+end;
+
 procedure TFormM.Image1DblClick(Sender: TObject);
 begin
   if OpenPictureDialog1.Execute then Image1.Picture.LoadFromFile(OpenPictureDialog1.FileName);
@@ -458,6 +466,7 @@ begin
  if passpAlreadyExist then exit;
  SetLength(PassportsArr,Length(PassportsArr)+1);
  PassportsArr[High(PassportsArr)]:=TFramePassport.Create(PanelPassport,PasTabs,Pas_ID,userID);
+ PassportsArr[High(PassportsArr)].Edit:=Edit;
 end;
 
 procedure TFormM.PassportOpenCad(Pas_ID: integer);
@@ -534,6 +543,16 @@ end;
 procedure TFormM.ActionShowPaspExecute(Sender: TObject);
 begin
    PanelPassport.Visible:=ActionShowPasp.Checked;
-end;
+   if PanelPassport.Visible then
+    begin
+     PanelCAD.Align:=alRight;
+     PanelMap.Align:=alRight;
+    end
+   else
+   begin
+     PanelCAD.Align:=alClient;
+     PanelMap.Align:=alClient;
+   end;
+ end;
 end.
 

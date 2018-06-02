@@ -5,7 +5,7 @@ unit FramePassport;
 interface
 
 uses
-  Classes, SysUtils, typinfo, FileUtil, Forms, Controls, ComCtrls, ActnList,
+  Classes, SysUtils, FileUtil, Forms, Controls, ComCtrls, ActnList,
   StdCtrls, attabs, FramePassportObjects, FramePassportProperties,
   unit_types_and_const, unit_m_data, unitDemoFrame1, typePaspProp, KGrids;
 
@@ -14,18 +14,15 @@ type
   { TFramePassport }
 
   TFramePassport = class(TFrame)
-    Action1: TAction;
-    Action2: TAction;
-    Action3: TAction;
+    ActionPaint: TAction;
+    ActionPassEdit: TAction;
     ActionList1: TActionList;
     PageControlPassport: TPageControl;
     TabSheet2: TTabSheet;
-    ToolBar1: TToolBar;
-    ToolButton1: TToolButton;
-    ToolButton2: TToolButton;
-    ToolButton3: TToolButton;
-    procedure Action1Execute(Sender: TObject);
-    procedure Action2Execute(Sender: TObject);
+    ToolBar2: TToolBar;
+    ToolButton4: TToolButton;
+    ToolButton5: TToolButton;
+    procedure ActionPassEditExecute(Sender: TObject);
   private
     { private declarations }
     propEdit:Boolean;
@@ -47,33 +44,19 @@ implementation
 var
   FPassportProperties:TFramePassportProperties;
 
-procedure TFramePassport.Action1Execute(Sender: TObject);
+procedure TFramePassport.ActionPassEditExecute(Sender: TObject);
 begin
-  Caption:=Caption;
-end;
-
-procedure TFramePassport.Action2Execute(Sender: TObject);
-begin
-  Caption:=Caption;
+  ActionPassEdit.Checked:= not ActionPassEdit.Checked;
+  Edit:=ActionPassEdit.Checked;
 end;
 
 procedure TFramePassport.setEdit(AValue: Boolean);
-var i:integer;
-    p: PPropInfo;
 begin
   if propEdit=AValue then Exit;
   propEdit:=AValue;
-  log('test');
-                  //ljkl
-  for i := 0 to ComponentCount-1 do
-  begin
-    //p := GetPropInfo(Components[i].ClassType, 'ReadOnly');
-    //if Assigned(p) then
-    //
-    //TCustomEdit(Components[i]).reaColor := clRed;
-    if (Components[i] is TEdit) then
-    (Components[i] as TEdit).ReadOnly := propEdit;
-  end;
+  FormSetEdit(propEdit,self);
+  ActionPassEdit.Checked:=propEdit;
+  //FPassportProperties.Edit:=propEdit;
 end;
 
 constructor TFramePassport.Create(TheOwner: TComponent; TabOwner: TATTabs;
@@ -83,6 +66,7 @@ var
   TabSheet:TTabSheet;
   pass:TPassProp;
   FDemoFrame1:TDemoFrame1;
+  strCap:string;
 begin
   inherited Create(TheOwner);
   self.Parent:=TWinControl(TheOwner);
@@ -91,13 +75,15 @@ begin
   self.Name:='FramePassportID'+inttostr(pPasspID);
   self.PasspID:=pPasspID;
   self.UserID :=pUserID;
+  self.propEdit:= True;
   { TODO : Заглушка - переделать тиб из БД }
   //TabOwner.AddTab(-1,'Тип-'+pass.pass_type+': '+pass.pass_name+' (ред.)');
   case StrToInt(pass.pass_type) of
-  1:TabOwner.AddTab(-1,'Участок '+': '+pass.pass_name+' (ред.)');   
-  2:TabOwner.AddTab(-1,'Узел '+': '+pass.pass_name+' (ред.)');   
-  3:TabOwner.AddTab(-1,'Эпюр '+': '+pass.pass_name+' (ред.)');   
+  1:strCap:='Участок '+': '+pass.pass_name;   
+  2:strCap:='Узел '+': '+pass.pass_name;   
+  3:strCap:='Эпюр '+': '+pass.pass_name;    
   end;
+  TabOwner.AddTab(-1,strCap);
   TabOwner.TabIndex:=TabOwner.TabCount-1;
   freeandnil(pass); //  pass.Destroy;
    for i:=(PageControlPassport.PageCount-1) downto 0
@@ -109,6 +95,7 @@ begin
    FPassportProperties.pass_id:=PasspID;
    FPassportProperties.user_id:=UserID;
    FPassportProperties.Parent:=TabSheet;
+   //FPassportProperties.Edit:=Edit;
    
    TabSheet:=PageControlPassport.AddTabSheet;
    TabSheet.Caption:='Продольный профиль';

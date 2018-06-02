@@ -4,7 +4,8 @@ unit unit_types_and_const;
 interface
 //типы, слассы, константы, методы общего назначения
 uses
-  Classes, SysUtils, md5, ZDataset, ZConnection, Forms, Controls;
+  Classes, SysUtils, md5, ZDataset, ZConnection, Forms, Controls, Grids,
+  StdCtrls, DBGrids, DbCtrls, ComCtrls, ActnList, KGrids;
 
 const
  const_pasNew = -1;
@@ -44,6 +45,7 @@ type
  function GetHash(Pas:string):string;
  procedure log(massage:string);
  Procedure MyExcept(Sender : TObject; E : Exception);
+ Procedure FormSetEdit(propEdit:Boolean;frame:TWinControl);
  var
    authorization :TLicRec;
 
@@ -93,6 +95,7 @@ begin
   //result:='Лицензия не прошла проверку';
   //result:=checkUser(authorization.UserID);
   authorization.Demo:=True;
+  authorization.Demo:=False;
   authorization.LicCount:=15;
   authorization.LicName:='Kit-tech';
   authorization.UserID:=0;
@@ -131,6 +134,47 @@ begin
  DateTimeToString(st,'YYYY-MM-DD  hh:mm:ss',now);
  WriteLn(myFile, st+' - '+E.Message);
  CloseFile(myFile);
+end;
+
+procedure FormSetEdit(propEdit: Boolean; frame: TWinControl);
+var i: integer;
+begin
+ with frame do begin
+  for i := 0 to ComponentCount-1 do
+  begin
+   
+   //log(Components[i].Name);
+   
+   if (Components[i] is TFrame) then
+   FormSetEdit(propEdit,(Components[i] as TFrame));
+   
+   if (Components[i] is TPageControl) then
+   FormSetEdit(propEdit,(Components[i] as TPageControl));
+   if (Components[i] is TTabSheet) then
+   FormSetEdit(propEdit,(Components[i] as TTabSheet));
+    
+   if (
+    (Components[i] is TAction)
+   and
+    ((Components[i] as TAction).tag = 0)
+    ) then
+   (Components[i] as TAction).Enabled := propEdit;
+   
+   if (Components[i] is TEdit) then
+   (Components[i] as TEdit).ReadOnly := not propEdit;
+   if (Components[i] is TMemo) then
+   (Components[i] as TMemo).ReadOnly := not propEdit;
+   if (Components[i] is TDBGrid) then
+   (Components[i] as TDBGrid).ReadOnly := not propEdit;
+   if (Components[i] is TDBLookupComboBox) then
+   (Components[i] as TDBLookupComboBox).ReadOnly := not propEdit;
+   if (Components[i] is TStringGrid) then
+   (Components[i] as TStringGrid).EditorMode := propEdit;
+   if (Components[i] is TKGrid) then
+   //(Components[i] as TKGrid).EditorMode := propEdit;  убить нахер, сделать TStringGrid
+   (Components[i] as TKGrid).Enabled := propEdit;
+  end;
+ end;
 end;
 
 function GetSQL(iden: string; param1: integer; param2: integer): string;

@@ -18,14 +18,17 @@ private
   f_pas_id        : integer;
   f_branch_id     : integer;
   PassObj         : TPassObj;
+  //propEdit: Boolean;
   ZQObjects       : TZQuery;
   f_branch_name   : string;
     function  get_count_pasObj():integer;
+    //procedure setEdit(AValue: Boolean);
 public
   { public declarations }
   property count_pasObj :integer read get_count_pasObj;
   property branch_id    :integer read f_branch_id;
   property branch_name  :string read f_branch_name write f_branch_name;
+  //property Edit    :Boolean read propEdit  write setEdit; 
   constructor Create(p_pas_id,p_branch_id:integer;conn:TZConnection; TheOwner: TComponent = nil);
   function getPasObject(obj_id:integer):TPassObj;
   function addPasObject: TPassObj;

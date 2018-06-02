@@ -40,33 +40,39 @@ type
     LbReconst: TLabel;
     LbContiguity: TLabel;
     MemoComment: TMemo;
-    MenuItem1: TMenuItem;
-    MenuItem2: TMenuItem;
+    MenuItemAddBr: TMenuItem;
+    MenuItemDelBr: TMenuItem;
     Panel1: TPanel;
     PanelL: TPanel;
     PanelV: TPanel;
     PanelVL0: TPanel;
-    PPMGridBranches: TPopupMenu;
     Splitter1: TSplitter;
-    Splitter2: TSplitter;
     StringGrid1: TStringGrid;
+    ToolBar1: TToolBar;
+    ToolButton1: TToolButton;
+    ToolButton2: TToolButton;
     ZQProp: TZQuery;
     ZTBranches: TZTable;
+    ZTBranchesepure_key: TStringField;
     ZTBranchesid: TLargeintField;
     ZTBranchesname: TStringField;
     ZTBranchespass_id: TStringField;
     ZTBranchespos: TFloatField;
+    ZTBranchespos_ang: TFloatField;
+    ZTBranchespos_x: TFloatField;
+    ZTBranchespos_y: TFloatField;
+    procedure ActionAddBranchExecute(Sender: TObject);
     procedure ActionDeleteBranchExecute(Sender: TObject);
     procedure DBComboBoxTypeChange(Sender: TObject);
     procedure EdNameChange(Sender: TObject);
     procedure EdWayChange(Sender: TObject);
     procedure EdYearBuiltChange(Sender: TObject);
-    procedure KGrid1Click(Sender: TObject);
     procedure MemoCommentChange(Sender: TObject);
     procedure ZTBranchesAfterRefresh(DataSet: TDataSet);
     procedure ZTBranchesBeforePost(DataSet: TDataSet);
   private
     { private declarations }
+    propEdit:Boolean;
   public
     { public declarations }
     PageControlPassport:TPageControl;
@@ -119,11 +125,6 @@ begin
   PassProp.year_built:=EdYearBuilt.Text;
 end;
 
-procedure TFramePassportProperties.KGrid1Click(Sender: TObject);
-begin
-
-end;
-
 procedure TFramePassportProperties.MemoCommentChange(Sender: TObject);
 begin
   PassProp.comment:=MemoComment.Text;
@@ -135,6 +136,15 @@ begin
     //элементы
   //Удаляем ветку
   ZTBranches.Delete;
+end;
+
+procedure TFramePassportProperties.ActionAddBranchExecute(Sender: TObject);
+begin
+  ZTBranches.Last;
+  ZTBranches.Insert;
+  ZTBranches.FieldByName('branch_name').AsString:='Ветка '+inttostr(ZTBranches.RecordCount+1);
+  ZTBranches.FieldByName('pos').AsInteger:=ZTBranches.RecordCount+1;
+  ZTBranches.Post;
 end;
 
 procedure TFramePassportProperties.DBComboBoxTypeChange(Sender: TObject);
